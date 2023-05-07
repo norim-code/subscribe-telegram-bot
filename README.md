@@ -1,2 +1,2 @@
 # subscribe-telegram-bot
-aiogram + Redis
+aiogram + SQLite
