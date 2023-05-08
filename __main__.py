@@ -2,7 +2,7 @@ import asyncio
 import sqlite3
 import logging
 from aiogram import Bot, Dispatcher
-from aiogram.types import Message, CallbackQuery, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
+from aiogram.types import Message, CallbackQuery, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters import Command, Text
 from aiogram.utils import i18n
 logging.basicConfig(level=logging.INFO)
@@ -50,10 +50,10 @@ async def callback_analys(callback: CallbackQuery):
         await update_message(callback.message, "🔸 3 MONTH\nЦена: 30 USD 25 USD\nСрок подписки: 90 дней\nВы получите приглашение в канал/чат 👇\n all 4 designer | a4d (private)", sub_payments_buttons)
     elif action=="back":
         await update_message(callback.message, "Выберите желаемый тарифный план:", sub_variants_buttons)
-    elif action=="boosty":
-        await update_message(callback.message, "To pay you need to go to my Boosty page. Be sure to select the currency USD and enter the amount 10. If the payment is declined, write to me - @v_v_i_s", sub_boosty_buttons)
-    elif action=="sber":
-        await update_message(callback.message, "Для оплаты вам нужно перевести 690₽ / 1750₽ (в зависимости  от выбранного срока) на 4276 5216 6735 2888 (Мирослав)", sub_sber_buttons)
+#    elif action=="boosty":
+#        await update_message(callback.message, "To pay you need to go to my Boosty page. Be sure to select the currency USD and enter the amount 10. If the payment is declined, write to me - @v_v_i_s", sub_boosty_buttons)
+#    elif action=="sber":
+#        await update_message(callback.message, "Для оплаты вам нужно перевести 690₽ / 1750₽ (в зависимости  от выбранного срока) на 4276 5216 6735 2888 (Мирослав)", sub_sber_buttons)
 @dp.message(Command("start"))
 async def intro(message: Message):
     main_buttons=ReplyKeyboardMarkup(
