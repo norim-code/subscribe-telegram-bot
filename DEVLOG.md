@@ -6,5 +6,6 @@ OK, for now i will use SQLite, just because they are perfectly for python.
 Also it's much more cool, than redis, cause we don't need to use wsl or something in Docker for installization and working.
 Structure for now:
 -main_sripts.py
--web_app
 -website for admins
+# Web_App left plan (11:01 08.05.2023)
+cool, only one script and bot done
