@@ -2,32 +2,36 @@ import asyncio
 import sqlite3
 import logging
 from aiogram import Bot, Dispatcher
-from aiogram.types import Message, User, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import Message, CallbackQuery, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters import Command, Text
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils import i18n
 logging.basicConfig(level=logging.INFO)
 dp = Dispatcher()
-async def main():
-    await dp.start_polling(Bot(token="6235859658:AAFR03q1rqvZDfUtUJfvSvkmLEtzcEDyrro"))
-@dp.message(Text("🛒 Тарифы"))
-async def pay_subscribe(message: Message):
-    sub_variants_buttons=[
+sub_variants_buttons=[
         [
-            InlineKeyboardButton(text="🔶 1 МЕСЯЦ", callback_data="sub_one_month"),
-            InlineKeyboardButton(text="🔶 3 МЕСЯЦА | -15% ВЫГОДА", callback_data="sub_three_month")
+            InlineKeyboardButton(text="🔶 1 МЕСЯЦ", callback_data="sub_one"),
+            InlineKeyboardButton(text="🔶 3 МЕСЯЦА | -15% ВЫГОДА", callback_data="sub_three")
         ],
     ]
+async def main():
+    await dp.start_polling(Bot(token="6235859658:AAFR03q1rqvZDfUtUJfvSvkmLEtzcEDyrro"))
+async def update_message(message: Message, new_value: str, keyboards: list):
+    await message.edit_text(new_value, reply_markup=InlineKeyboardMarkup(inline_keyboard=keyboards))
+@dp.message(Text("🛒 Тарифы"))
+async def pay_subscribe(message: Message):
     await message.answer("Выберите желаемый тарифный план:", reply_markup=InlineKeyboardMarkup(inline_keyboard=sub_variants_buttons))
-@dp.message(Text("📊 Моя подписка"))
-async def check_subscribe(message: Message):
-    await message.answer("Акукарача")
+@dp.callback_query(Text(startswith="sub_"))
+async def callback_analys(callback: CallbackQuery):
+    action=callback.data.split("_")[1]
+    if action=="one":
+        await update_message(callback.message, "Один", sub_variants_buttons)
+    elif action=="three":
+        await update_message(callback.message, "Три", sub_variants_buttons)
 @dp.message(Command("start"))
 async def intro(message: Message):
     main_buttons=ReplyKeyboardMarkup(
         keyboard=[
             [
-                KeyboardButton(text="📊 Моя подписка"),
                 KeyboardButton(text="🛒 Тарифы")  
             ],
         ],
