@@ -38,6 +38,8 @@ async def main():
     await dp.start_polling(bot)
 async def update_message(message: Message, new_value: str, keyboards: list):
     await message.edit_text(new_value, reply_markup=InlineKeyboardMarkup(inline_keyboard=keyboards))
+async def delete_message(message: int):
+    await delete_message(message)
 @dp.message(Text("🛒 Тарифы"))
 async def pay_subscribe(message: Message):
     await message.answer("Выберите желаемый тарифный план:", reply_markup=InlineKeyboardMarkup(inline_keyboard=sub_variants_buttons))
@@ -51,7 +53,8 @@ async def callback_analys(callback: CallbackQuery):
     elif action=="back":
         await update_message(callback.message, "Выберите желаемый тарифный план:", sub_variants_buttons)
     elif action=="boosty":
-        await update_message(callback.message, "To pay you need to go to my Boosty page. Be sure to select the currency USD and enter the amount 10. If the payment is declined, write to me - @v_v_i_s", sub_boosty_buttons)
+        await delete_message(callback.message.message_id)
+        #await update_message(callback.message, "To pay you need to go to my Boosty page. Be sure to select the currency USD and enter the amount 10. If the payment is declined, write to me - @v_v_i_s", sub_boosty_buttons)
     elif action=="sber":
         await update_message(callback.message, "Для оплаты вам нужно перевести 690₽ / 1750₽ (в зависимости  от выбранного срока) на 4276 5216 6735 2888 (Мирослав)", sub_sber_buttons)
 @dp.message(Command("start"))
