@@ -8,11 +8,22 @@ from aiogram.utils import i18n
 logging.basicConfig(level=logging.INFO)
 dp = Dispatcher()
 sub_variants_buttons=[
-        [
-            InlineKeyboardButton(text="🔶 1 МЕСЯЦ", callback_data="sub_one"),
-            InlineKeyboardButton(text="🔶 3 МЕСЯЦА | -15% ВЫГОДА", callback_data="sub_three")
-        ],
+    [
+        InlineKeyboardButton(text="🔶 1 МЕСЯЦ", callback_data="sub_one"),
+        InlineKeyboardButton(text="🔶 3 МЕСЯЦА | -15% ВЫГОДА", callback_data="sub_three")
+    ],
+]
+sub_payments_buttons=[
+    [
+        InlineKeyboardButton(text="Оплатить через Boosty(Paypal / Банк)", callback_data="sub_boosty")
+    ],
+    [
+        InlineKeyboardButton(text="Оплатить через Сбербанк", callback_data="sub_sber")
+    ],
+    [
+        InlineKeyboardButton(text="🔙 Назад", callback_data="sub_back")
     ]
+]
 async def main():
     await dp.start_polling(Bot(token="6235859658:AAFR03q1rqvZDfUtUJfvSvkmLEtzcEDyrro"))
 async def update_message(message: Message, new_value: str, keyboards: list):
@@ -24,9 +35,11 @@ async def pay_subscribe(message: Message):
 async def callback_analys(callback: CallbackQuery):
     action=callback.data.split("_")[1]
     if action=="one":
-        await update_message(callback.message, "Один", sub_variants_buttons)
+        await update_message(callback.message, "🔸 1 MONTH\nЦена: 10 USD\nСрок подписки: 30 дней\nВы получите приглашение в канал/чат 👇\n all 4 designer | a4d (private)", sub_payments_buttons)
     elif action=="three":
-        await update_message(callback.message, "Три", sub_variants_buttons)
+        await update_message(callback.message, "🔸 3 MONTH\nЦена: 30 USD 25 USD\nСрок подписки: 90 дней\nВы получите приглашение в канал/чат 👇\n all 4 designer | a4d (private)", sub_payments_buttons)
+    elif action=="back":
+        await update_message(callback.message, "Выберите желаемы тарифный план:", sub_variants_buttons)
 @dp.message(Command("start"))
 async def intro(message: Message):
     main_buttons=ReplyKeyboardMarkup(
