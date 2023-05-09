@@ -2,6 +2,9 @@ import asyncio
 import sqlite3
 import logging
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
+from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import Message, CallbackQuery, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters import Command, Text
 from aiogram.utils import i18n
